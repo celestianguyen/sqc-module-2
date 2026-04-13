@@ -1,0 +1,55 @@
+package util;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
+public class InputUtil {
+    static Scanner scanner = new Scanner(System.in);
+
+    public static int inputPositive(String message) {
+        int n;
+        do {
+            System.out.print(message);
+            n = scanner.nextInt();
+
+            if (n <= 0) {
+                System.out.print("Invalid input! Please re-enter the value again.");
+                System.out.println();
+            }
+
+        } while (n <= 0);
+        return n;
+    }
+
+    public static String getString(String prompt){
+        String strVal;
+
+        do {
+            System.out.println(prompt);
+            strVal = scanner.nextLine().trim();
+            if (strVal.isEmpty()){
+                System.out.println("Invalid input! Please enter a string value.");
+            }
+
+        } while (strVal.isEmpty());
+    }
+
+    public static double getScore(String prompt) {
+        double value = -1;
+        do {
+            try {
+                System.out.print(prompt);
+                value = Double.parseDouble(scanner.nextLine());
+                if (value < 0 || value > 10) {
+                    System.out.println("Score must be between 0 and 10. Try again :'(");
+                    value = -1;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter a number.");
+            }
+        } while (value < 0 || value > 10);
+        return value;
+    }
+
+}
