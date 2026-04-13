@@ -26,13 +26,14 @@ public class InputUtil {
         String strVal;
 
         do {
-            System.out.println(prompt);
+            System.out.print(prompt);
             strVal = scanner.nextLine().trim();
             if (strVal.isEmpty()){
                 System.out.println("Invalid input! Please enter a string value.");
             }
 
         } while (strVal.isEmpty());
+        return strVal;
     }
 
     public static double getScore(String prompt) {

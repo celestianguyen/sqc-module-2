@@ -29,10 +29,11 @@ public class Student {
 
     // output method
     public void output(){
-        System.out.println("=====Student Info=====");
+        System.out.println("\n=====Student Info=====");
         System.out.println("Student name: " + name);
         System.out.println("Student's math score: " + mathScore);
         System.out.printf("Student's literature score: " + literatureScore);
+        System.out.println();
         System.out.printf("Student's average score: %.2f%n", calcAverageScore());
     }
 
