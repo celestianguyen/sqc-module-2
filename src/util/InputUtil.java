@@ -22,6 +22,33 @@ public class InputUtil {
         return n;
     }
 
+    public static int getNonZeroInt(String message) {
+        int n;
+        do {
+            System.out.print(message);
+            n = scanner.nextInt();
+
+            if (n == 0) {
+                System.out.print("Input cannot be zero! Please re-enter the value again.");
+                System.out.println();
+            }
+
+        } while (n == 0);
+        return n;
+    }
+
+    public static int readInt(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String sInt = scanner.nextLine().trim();
+            try {
+                return Integer.parseInt(sInt);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter an integer only!");
+            }
+        }
+    }
+
     public static String getString(String prompt){
         String strVal;
 
