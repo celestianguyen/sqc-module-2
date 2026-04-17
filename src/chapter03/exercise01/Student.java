@@ -1,6 +1,6 @@
 package chapter03.exercise01;
 
-/*
+/**
 Write a Student class that represents a student, including the following information:
      + Id
      + Name

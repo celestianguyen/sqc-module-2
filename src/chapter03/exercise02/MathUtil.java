@@ -12,7 +12,6 @@ import java.util.Scanner;
  * + Divide two numbers
  */
 public class MathUtil {
-    static Scanner scanner = new Scanner(System.in);
 
     //add method
     public static double add(double a, double b) {
