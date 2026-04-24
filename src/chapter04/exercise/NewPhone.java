@@ -9,8 +9,8 @@ public class NewPhone extends Phone {
     public NewPhone() {
     }
 
-    public NewPhone(int id, String phoneName, int warrantyMonths, String manufacturer, int quantity) {
-        super(id, phoneName, warrantyMonths, manufacturer);
+    public NewPhone(String id, String phoneName, double phonePrice, int warrantyMonths, String manufacturer, int quantity) {
+        super(id, phoneName, phonePrice, warrantyMonths, manufacturer);
         this.quantity = quantity;
     }
 
@@ -25,18 +25,15 @@ public class NewPhone extends Phone {
     }
 
     @Override
-    public void input(Scanner sc){
-        System.out.print("  Name: ");
-        this.phoneName = sc.nextLine();
-        System.out.print("  Price (USD): ");
-        this.phonePrice = Double.parseDouble(sc.nextLine());
-        System.out.print("  Warranty (months): ");
-        this.warrantyMonths = Integer.parseInt(sc.nextLine());
-        System.out.print("  Manufacturer: ");
-        this.manufacturer = sc.nextLine();
+    public void input(Scanner sc) {
+        super.input(sc);
         System.out.print("  Quantity: ");
         this.quantity = Integer.parseInt(sc.nextLine());
     }
 
-    //override output()
+    @Override
+    public void display() {
+        super.display();
+        System.out.printf(" | %-20s\n", quantity);
+    }
 }

@@ -53,14 +53,14 @@ import util.InputUtil;
  * End the program.
  */
 public class Menu {
-    private PhoneManager manager;
+    private PhoneManager manager = new PhoneManager();
 
     //called by main
     public void run() {
         int choice = 0;
         do {
             printMainMenu();
-            choice = InputUtil.readInt("Choose a function (number)");
+            choice = InputUtil.readInt("Choose a function (number): ");
             switch (choice) {
                 case 1 -> viewPhoneMenu();
                 case 2 -> viewAddMenu();

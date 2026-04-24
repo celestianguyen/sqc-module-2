@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 
 public class InputUtil {
-    static Scanner scanner = new Scanner(System.in);
+    public static Scanner scanner = new Scanner(System.in);
 
     public static int inputPositive(String message) {
         int n;

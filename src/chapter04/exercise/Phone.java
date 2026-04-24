@@ -11,26 +11,46 @@ import java.util.Scanner;
  * + Manufacturer (e.g. iPhone, Samsung, …)
  */
 public class Phone {
-    protected int id;
+    protected String id;
     protected String phoneName;
     protected double phonePrice;
     protected int warrantyMonths;
     protected String manufacturer;
 
     public Phone() {
-
     }
 
-    public Phone(int id, String phoneName, double phonePrice, int warrantyMonths, String manufacturer) {
+    public Phone(String id, String phoneName, double phonePrice, int warrantyMonths, String manufacturer) {
         this.id = id;
-        setPhonePrice(phonePrice);
-        setPhoneName(phoneName);
-        setWarrantyMonths(warrantyMonths);
-        setManufacturer(manufacturer);
+        this.phoneName = phoneName;
+        this.phonePrice = phonePrice;
+        this.warrantyMonths = warrantyMonths;
+        this.manufacturer = manufacturer;
+    }
+
+    // To be implemented by subclasses
+    public void input(Scanner sc) {
+        System.out.print("  Name: ");
+        this.phoneName = sc.nextLine();
+        System.out.print("  Price (USD): ");
+        this.phonePrice = Double.parseDouble(sc.nextLine());
+        System.out.print("  Warranty (months): ");
+        this.warrantyMonths = Integer.parseInt(sc.nextLine());
+        System.out.print("  Manufacturer: ");
+        this.manufacturer = sc.nextLine();
+    }
+
+    public void display() {
+        System.out.printf("%-20s | %-20s | %-20s | %-20s | %-20s ", id, phoneName, phonePrice, warrantyMonths, manufacturer);
+
+//        System.out.println("Phone name: " + phoneName);
+//        System.out.println("Phone Price: " + phonePrice);
+//        System.out.println("Warranty Months: " + warrantyMonths);
+//        System.out.println("Manufacturer: " + manufacturer);
     }
 
     //getters
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -51,7 +71,7 @@ public class Phone {
     }
 
     //setters
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -83,13 +103,5 @@ public class Phone {
         } else {
             this.manufacturer = manufacturer;
         }
-    }
-
-    // To be implemented by subclasses
-    public void input(Scanner sc){
-
-    }
-    public void display(){
-
     }
 }
