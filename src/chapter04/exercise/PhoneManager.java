@@ -5,17 +5,17 @@ import java.util.ArrayList;
 import static util.InputUtil.scanner;
 
 public class PhoneManager {
-    static ArrayList<NewPhone> newPhones;
-    static ArrayList<OldPhone> oldPhones;
+    static ArrayList<Phone> phones;
+
 
     static {
-        newPhones = new ArrayList<>();
-        newPhones.add(new NewPhone("NP001", "iPhone17Promax", 2000, 12, "Apple", 10));
-        newPhones.add(new NewPhone("NP002", "iPhone16Pro", 1000, 12, "Apple", 10));
+        phones = new ArrayList<>();
+        phones.add(new NewPhone("NP001", "iPhone17Promax", 2000, 12, "Apple", 10));
+        phones.add(new NewPhone("NP002", "iPhone16Pro", 1000, 12, "Apple", 10));
 
-        oldPhones = new ArrayList<>();
-        oldPhones.add(new OldPhone("OP001", "iPhone15Promax", 500, 6, "Apple", 80, "New phone"));
-        oldPhones.add(new OldPhone("OP002", "iPhone14Promax", 400, 4, "Apple", 70, "Old phone"));
+        phones = new ArrayList<>();
+        phones.add(new OldPhone("OP001", "iPhone15Promax", 500, 6, "Apple", 80, "New phone"));
+        phones.add(new OldPhone("OP002", "iPhone14Promax", 400, 4, "Apple", 70, "Old phone"));
     }
 
 
@@ -32,25 +32,37 @@ public class PhoneManager {
     }
 
     public void viewOldPhones() {
-        if(oldPhones.isEmpty()) {
+        boolean found = false;
+        for (Phone p : phones) {
+            if (p instanceof OldPhone) {
+                found = true;
+            }
+        }
+        if(!found) {
             System.out.println("No old phones");
         } else {
             System.out.println("=== List old phones ===");
             System.out.printf("%-20s | %-20s | %-20s | %-20s | %-20s | %-20s | %-20s\n", "ID", "Phone Name", "Phone Price", "Warranty Months", "Manufacturer", "Battery Condition", "Description");
-            for(OldPhone oldPhone : oldPhones) {
-                oldPhone.display();
+            for(Phone p : phones) {
+                p.display();
             }
         }
     }
 
     public void viewNewPhones() {
-        if(newPhones.isEmpty()) {
+        boolean found = false;
+        for (Phone p : phones) {
+            if (p instanceof NewPhone) {
+                found = true;
+            }
+        }
+        if (!found) {
             System.out.println("No new phones");
-        } else {
+        }else {
             System.out.println("=== List new phones ===");
             System.out.printf("%-20s | %-20s | %-20s | %-20s | %-20s | %-20s\n", "ID", "Phone Name", "Phone Price", "Warranty Months", "Manufacturer", "Quantity");
-            for(NewPhone newPhone : newPhones) {
-                newPhone.display();
+            for(Phone p : phones) {
+                p.display();
             }
         }
     }
@@ -60,8 +72,8 @@ public class PhoneManager {
         System.out.println("--------ADD OLD PHONE--------");
         OldPhone oPhone = new OldPhone();
         oPhone.input(scanner);
-        oPhone.setId(generateId("OP", oldPhones));
-        oldPhones.add(oPhone);
+        oPhone.setId(generateId("OP", phones.size()));
+        phones.add(oPhone);
         System.out.println("\nAdded successfully! Phone ID: " + oPhone.getId());
     }
 
@@ -69,26 +81,102 @@ public class PhoneManager {
         System.out.println("--------ADD NEW PHONE--------");
         NewPhone nPhone = new NewPhone();
         nPhone.input(scanner);
-        newPhones.add(nPhone);
-        nPhone.setId(generateId("NP", newPhones));
+        phones.add(nPhone);
+        nPhone.setId(generateId("NP", phones.size()));
         System.out.println("\nAdded successfully! Phone ID: " + nPhone.getId());
 
     }
 
     //======UPDATE===========
     public void updatePhone() {
+        System.out.print("\nEnter phone ID to update: ");
+        String id = scanner.nextLine().trim().toUpperCase();
 
+        if (!isValidId(id)) {
+            System.out.println("  Invalid ID. Must be NPXXX or OPXXX (for example NP001).");
+            return;
+        }
 
+        for (Phone p : phones) {
+            if (p.getId().equals(id)) {
+                System.out.println("  Found. Enter new information:");
+                p.input(scanner);
+                p.setId(id);
+                System.out.println("  Update successful.");
+                return;
+            }
+        }
+        System.out.println("  ID does not exist.");
     }
 
     //=======DELETE==========
     public void deletePhone() {
+        System.out.print("\nEnter phone ID to delete: ");
+        String id = scanner.nextLine().trim().toUpperCase();
 
+        if (!isValidId(id)) {
+            System.out.println("Invalid ID. Must be NPXXX or OPXXX (for example OP001).");
+            return;
+        }
+        for (int i = 0; i < phones.size(); i++) {
+            if (phones.get(i).getId().equals(id)) {
+                System.out.println("Phone to delete:");
+                phones.get(i).display();
+                System.out.print("Are you sure (yes/no)?: ");
+                String confirm = scanner.nextLine().trim();
+                if (confirm.equals("yes")) {
+                    phones.remove(i);
+                    System.out.println("Deleted successfully.");
+                } else {
+                    System.out.println("Cancelled.");
+                }
+                return;
+            }
+        }
 
+        System.out.println("ID does not exist.");
+    }
+    //==========SORT========================
+    public void sortByPriceAscending() {
+        for (int i = 0; i < phones.size() - 1; i++) {
+            for (int j = i + 1; j < phones.size(); j++) {
+                if (phones.get(i).getPhonePrice() > phones.get(j).getPhonePrice()) {
+                    Phone temp = phones.get(i);
+                    phones.set(i, phones.get(j)); //arr[i] = arr[j];
+                    phones.set(j, temp);
+                }
+            }
+        }
+        System.out.println("Sorted by price ascending:");
+        viewAll();
+    }
+
+    public void sortByPriceDescending() {
+        // Interchange sort
+        for (int i = 0; i < phones.size() - 1; i++) {
+            for (int j = i + 1; j < phones.size(); j++) {
+                if (phones.get(i).getPhonePrice() < phones.get(j).getPhonePrice()) {
+                    Phone temp = phones.get(i);
+                    phones.set(i, phones.get(j));
+                    phones.set(j, temp);
+                }
+            }
+        }
+        System.out.println("Sorted by price descending:");
+        viewAll();
     }
 
     //helper
-    private String generateId(String type, ArrayList<?> list){
-        return String.format("%s%03d", type, list.size() + 1); //return without printing the result
+    private String generateId(String type, int size){
+        return String.format("%s%03d", type, size + 1); //return without printing the result
+    }
+
+    private boolean isValidId(String id) {
+        if (id == null || id.length() != 5) {
+            return false;
+        } else if (!id.startsWith("NP") && !id.startsWith("OP")) {
+            return false;
+        }
+        return true;
     }
 }

@@ -66,7 +66,7 @@ public class Menu {
                 case 2 -> viewAddMenu();
                 case 3 -> manager.updatePhone();
                 case 4 -> manager.deletePhone();
-                case 5 -> System.out.println("Sorting... (to be updated)");
+                case 5 -> viewPriceMenu();
                 case 6 -> System.out.println("Searching...(to be updated)");
                 case 7 -> System.out.println("Calculating...(to be updated)");
                 case 8 -> System.out.println("Discounting...(to be updated)");
@@ -123,6 +123,23 @@ public class Menu {
             switch (choice){
                 case 1 -> manager.addOldPhones();
                 case 2 -> manager.addNewPhones();
+                case 3 -> {}
+                default -> System.out.println("Invalid choice! Please enter 1-3.");
+            }
+        } while (choice != 3);
+    }
+
+    public void viewPriceMenu() {
+        int choice = 0;
+        do {
+            System.out.println("\n1. Sort by price descending");
+            System.out.println("2. Sort by price ascending");
+            System.out.println(". Back to main menu");
+            choice = InputUtil.readInt("Your choice: ");
+
+            switch (choice){
+                case 1 -> manager.sortByPriceDescending();
+                case 2 -> manager.sortByPriceAscending();
                 case 3 -> {}
                 default -> System.out.println("Invalid choice! Please enter 1-3.");
             }
