@@ -12,8 +12,6 @@ public class PhoneManager {
         phones = new ArrayList<>();
         phones.add(new NewPhone("NP001", "iPhone17Promax", 2000, 12, "Apple", 10));
         phones.add(new NewPhone("NP002", "iPhone16Pro", 1000, 12, "Apple", 10));
-
-        phones = new ArrayList<>();
         phones.add(new OldPhone("OP001", "iPhone15Promax", 500, 6, "Apple", 80, "New phone"));
         phones.add(new OldPhone("OP002", "iPhone14Promax", 400, 4, "Apple", 70, "Old phone"));
     }
@@ -33,37 +31,33 @@ public class PhoneManager {
 
     public void viewOldPhones() {
         boolean found = false;
+        System.out.println("=== List old phones ===");
+        System.out.printf("%-20s | %-20s | %-20s | %-20s | %-20s | %-20s | %-20s\n",
+                "ID", "Phone Name", "Phone Price", "Warranty Months", "Manufacturer", "Battery Condition", "Description");
         for (Phone p : phones) {
             if (p instanceof OldPhone) {
+                p.display();
                 found = true;
             }
         }
-        if(!found) {
+        if (!found) {
             System.out.println("No old phones");
-        } else {
-            System.out.println("=== List old phones ===");
-            System.out.printf("%-20s | %-20s | %-20s | %-20s | %-20s | %-20s | %-20s\n", "ID", "Phone Name", "Phone Price", "Warranty Months", "Manufacturer", "Battery Condition", "Description");
-            for(Phone p : phones) {
-                p.display();
-            }
         }
     }
 
     public void viewNewPhones() {
         boolean found = false;
+        System.out.println("=== List new phones ===");
+        System.out.printf("%-20s | %-20s | %-20s | %-20s | %-20s | %-20s\n",
+                "ID", "Phone Name", "Phone Price", "Warranty Months", "Manufacturer", "Quantity");
         for (Phone p : phones) {
             if (p instanceof NewPhone) {
+                p.display();
                 found = true;
             }
         }
         if (!found) {
             System.out.println("No new phones");
-        }else {
-            System.out.println("=== List new phones ===");
-            System.out.printf("%-20s | %-20s | %-20s | %-20s | %-20s | %-20s\n", "ID", "Phone Name", "Phone Price", "Warranty Months", "Manufacturer", "Quantity");
-            for(Phone p : phones) {
-                p.display();
-            }
         }
     }
 
@@ -72,7 +66,13 @@ public class PhoneManager {
         System.out.println("--------ADD OLD PHONE--------");
         OldPhone oPhone = new OldPhone();
         oPhone.input(scanner);
-        oPhone.setId(generateId("OP", phones.size()));
+        int count = 0;
+        for (Phone p : phones) {
+            if (p.getId().substring(0,2).equals("OP")) {
+                count++;
+            }
+        }
+        oPhone.setId(generateId("OP", count));
         phones.add(oPhone);
         System.out.println("\nAdded successfully! Phone ID: " + oPhone.getId());
     }
@@ -81,8 +81,14 @@ public class PhoneManager {
         System.out.println("--------ADD NEW PHONE--------");
         NewPhone nPhone = new NewPhone();
         nPhone.input(scanner);
+        int count = 0;
+        for (Phone p : phones) {
+            if (p.getId().substring(0,2).equals("NP")){
+                count++;
+            }
+        }
+        nPhone.setId(generateId("NP", count));
         phones.add(nPhone);
-        nPhone.setId(generateId("NP", phones.size()));
         System.out.println("\nAdded successfully! Phone ID: " + nPhone.getId());
 
     }
@@ -166,17 +172,75 @@ public class PhoneManager {
         viewAll();
     }
 
-    //helper
-    private String generateId(String type, int size){
-        return String.format("%s%03d", type, size + 1); //return without printing the result
+    // ======SEARCH==========
+    public void searchByPriceRange() {
+        System.out.print("Enter minimum price: ");
+        double minPrice = Double.parseDouble(scanner.nextLine().trim());
+        System.out.print("Enter maximum price: ");
+        double maxPrice = Double.parseDouble(scanner.nextLine().trim());
+
+        boolean found = false;
+        System.out.println("=== Results ===");
+        for (Phone p : phones) {
+            if (p.getPhonePrice() >= minPrice && p.getPhonePrice() <= maxPrice) {
+                p.display();
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No phones found in that price range.");
+        }
     }
 
-    private boolean isValidId(String id) {
-        if (id == null || id.length() != 5) {
-            return false;
-        } else if (!id.startsWith("NP") && !id.startsWith("OP")) {
-            return false;
+    public void searchByName() {
+        System.out.print("Enter phone name to search: ");
+        String keyword = scanner.nextLine().trim().toLowerCase();
+
+        boolean found = false;
+        System.out.println("=== Results ===");
+        for (Phone p : phones) {
+            if (p.getPhoneName().toLowerCase().contains(keyword)) {
+                p.display();
+                found = true;
+            }
         }
-        return true;
+        if (!found) System.out.println("No phones found with that name.");
     }
-}
+
+    public void searchByType(String type) {
+        System.out.println("\n=== Results ===");
+        boolean found = false;
+
+        for (Phone p : phones) {
+            if (type.equals("old") && p instanceof OldPhone) {
+                p.display();
+                found = true;
+            } else if (type.equals("new") && p instanceof NewPhone) {
+                p.display();
+                found = true;
+            }
+        }
+
+        if (!found) System.out.println("  No phones found.");
+        }
+        //helper
+        private String generateId(String type, int size){
+            return String.format("%s%03d", type, size + 1); //return without printing the result
+        }
+
+        private boolean isValidId(String id) {
+            if (id == null || id.length() != 5) {
+                return false;
+            } else if (!id.startsWith("NP") && !id.startsWith("OP")) {
+                return false;
+            }
+            return true;
+        }
+    }
+
+
+
+
+
+
+

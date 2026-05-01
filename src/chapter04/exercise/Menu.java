@@ -2,6 +2,8 @@ package chapter04.exercise;
 
 import util.InputUtil;
 
+import static util.InputUtil.readInt;
+
 /**
  * --- MOBILE PHONE MANAGEMENT PROGRAM ---
  * <p>
@@ -60,7 +62,7 @@ public class Menu {
         int choice = 0;
         do {
             printMainMenu();
-            choice = InputUtil.readInt("Choose a function (number): ");
+            choice = readInt("Choose a function (number): ");
             switch (choice) {
                 case 1 -> viewPhoneMenu();
                 case 2 -> viewAddMenu();
@@ -99,7 +101,7 @@ public class Menu {
             System.out.println("2. View old phones");
             System.out.println("3. View new phones");
             System.out.println("4. Back to main menu");
-            choice = InputUtil.readInt("Your choice: ");
+            choice = readInt("Your choice: ");
 
             switch (choice){
                 case 1 -> manager.viewAll();
@@ -118,7 +120,7 @@ public class Menu {
             System.out.println("\n1. Add old phone");
             System.out.println("2. Add new phone");
             System.out.println("3. Back to main menu");
-            choice = InputUtil.readInt("Your choice: ");
+            choice = readInt("Your choice: ");
 
             switch (choice){
                 case 1 -> manager.addOldPhones();
@@ -134,8 +136,8 @@ public class Menu {
         do {
             System.out.println("\n1. Sort by price descending");
             System.out.println("2. Sort by price ascending");
-            System.out.println(". Back to main menu");
-            choice = InputUtil.readInt("Your choice: ");
+            System.out.println("3. Back to main menu");
+            choice = readInt("Your choice: ");
 
             switch (choice){
                 case 1 -> manager.sortByPriceDescending();
@@ -143,6 +145,39 @@ public class Menu {
                 case 3 -> {}
                 default -> System.out.println("Invalid choice! Please enter 1-3.");
             }
+        } while (choice != 3);
+    }
+
+    public void viewSearchMenu() {
+        int choice = 0;
+        do {
+            System.out.println("\n1. Search by type");
+            System.out.println("2. Search by price");
+            System.out.println("3. Search by name");
+            System.out.println("4. Back to main menu");
+            choice = readInt("Your choice: ");
+
+            switch (choice){
+                case 1 -> viewTypeMenu();
+                case 2 -> manager.searchByPriceRange();
+                case 3 -> manager.searchByName();
+                case 4 -> {}
+                default -> System.out.println("Invalid choice! Please enter 1-4.");
+            }
+        } while (choice != 4);
+    }
+
+    private void viewTypeMenu() {
+        int choice = 0;
+        System.out.println("  1. Old phones");
+        System.out.println("  2. New phones");
+        System.out.println("  3. Back to main menu");
+        System.out.print("  Choose: ");
+        switch (choice) {
+            case 1 -> manager.searchByType("old");
+            case 2 -> manager.searchByType("new");
+            case 3 -> {}
+            default -> System.out.println("  Invalid choice.");
         } while (choice != 3);
     }
 
