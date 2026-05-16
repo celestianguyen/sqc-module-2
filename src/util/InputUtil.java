@@ -81,4 +81,19 @@ public class InputUtil {
         return value;
     }
 
+    public static int inputNonNegativeInt(String message) {
+        int n;
+        do {
+            System.out.print(message);
+            n = scanner.nextInt();
+
+            if (n < 0) {
+                System.out.print("Invalid input! Please re-enter the value again.");
+                System.out.println();
+            }
+
+        } while (n < 0);
+        return n;
+    }
+
 }
