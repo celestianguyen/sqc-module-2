@@ -1,25 +1,26 @@
 package chapter07;
+import java.util.Objects;
 
-public class MyArrayList {
-    private int[] array;
+public class MyArrayList<T> {
+    private Object[] array;
     private int size;
     private static final int DEFAULT_CAPACITY = 10;
 
     public MyArrayList() {
-        array = new int[DEFAULT_CAPACITY];
+        array = new Object[DEFAULT_CAPACITY];
     }
 
-    public void checkCapacity() {
+    public void ensureCapacity() {
         if (size == array.length) {
-            int[] newArray = new int[(int) (1.5 * array.length)];
+            Object[] newArray = new Object[(int) (1.5 * array.length)];
             for (int i = 0; i < size; i++){
                 newArray[i] = array[i];
             }
             array = newArray;
         }
     }
-    public void add(int element) {
-        checkCapacity();
+    public void add(T element) {
+        ensureCapacity();
         array[size] = element;
         size++;
     }
@@ -38,11 +39,11 @@ public class MyArrayList {
         return stringBuilder.toString();
     }
 
-    public void add(int index, int element) {
+    public void add(int index, T element) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
-        checkCapacity();
+        ensureCapacity();
 
         for (int i = size; i > index; i--) {
             array[i] = array[i - 1];
@@ -51,45 +52,45 @@ public class MyArrayList {
         size++;
     }
 
-    public int set(int index, int element) {
+    public T set(int index, T element) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
-        int oldValue = array[index];
+        T oldValue = (T) array[index];
         array[index] = element;
         return oldValue;
     }
 
-    public int get(int index) {
+    public T get(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
-        return array[index];
+        return (T) array[index];
     }
 
-    public int indexOf(int element) {
+    public int indexOf(T element) {
         for (int i = 0; i < size; i++) {
-            if (array[i] == element) {
+            if (Objects.equals(array[i], element)) {
                 return i;
             }
         }
         return -1;
     }
 
-    public int lastIndexOf(int element) {
+    public int lastIndexOf(T element) {
         for (int i = size - 1; i >= 0; i--) {
-            if (array[i] == element) {
+            if (Objects.equals(array[i], element)) {
                 return i;
             }
         }
         return -1;
     }
 
-    public int remove(int index) {
+    public T remove(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
-        int removedValue = array[index];
+        T removedValue = (T) array[index];
         for (int i = index; i < size - 1; i++) {
             array[i] = array[i + 1];
         }
@@ -97,12 +98,19 @@ public class MyArrayList {
         return removedValue;
     }
 
-    public void removeElement(int element) {
+    public void removeElement(T element) {
         for (int i = size - 1; i >= 0; i--) {
-            if (array[i] == element) {
+            if (Objects.equals(array[i], element)) {
                 remove(i);
             }
         }
+    }
+
+    public int size() {
+        return size;
+    }
+    public boolean isEmpty() {
+        return size == 0;
     }
 
 
