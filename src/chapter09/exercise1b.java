@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-public class exercise1a {
+public class exercise1b {
     static void main() {
         Scanner scanner = new Scanner(System.in);
 
@@ -25,12 +25,15 @@ public class exercise1a {
             uniqueElements.add(val);
         }
 
+        int sum = 0;
+        for (int val : uniqueElements) {
+            sum += val;
+        }
+
 
         System.out.println("\nOriginal array: " + Arrays.toString(arr));
         System.out.println("Array after removing duplicate elements: " + uniqueElements.toString());
-
-
+        System.out.println("Sum of unique elements in the array = " + sum);
 
     }
-
 }
