@@ -4,6 +4,12 @@ import util.InputUtil;
 
 import java.util.*;
 
+/**
+ * d. Find the Largest and Smallest Elements
+ *    Write a program that receives an integer array and uses a Set
+ *    to find the largest and smallest elements in the array.
+ */
+
 public class exercise1d {
     static void main() {
         Scanner scanner = new Scanner(System.in);

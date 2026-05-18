@@ -7,6 +7,11 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
+/**
+ * b. Calculate the Sum of Unique Elements
+ *    Write a program that receives an integer array and uses a Set
+ *    to calculate the sum of unique elements in the array.
+ */
 public class exercise1b {
     static void main() {
         Scanner scanner = new Scanner(System.in);

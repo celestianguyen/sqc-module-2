@@ -7,6 +7,12 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
+/**
+ * a. Remove Duplicate Elements
+ *    Write a program that receives an integer array and uses a Set
+ *    to remove duplicate elements, then displays the list of unique elements.
+ */
+
 public class exercise1a {
     static void main() {
         Scanner scanner = new Scanner(System.in);

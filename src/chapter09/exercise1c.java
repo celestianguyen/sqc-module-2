@@ -4,6 +4,11 @@ import util.InputUtil;
 
 import java.util.*;
 
+/**
+ * c. Find Common Elements in Two Arrays
+ *    Write a program that receives two integer arrays and uses two Sets
+ *    to find the common elements between the arrays.
+ */
 public class exercise1c {
     static void main() {
         Scanner scanner = new Scanner(System.in);
