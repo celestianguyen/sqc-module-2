@@ -1,5 +1,11 @@
 package chapter04.exercise;
 
+import chapter04.exercise.exception.EmptyFieldException;
+import chapter04.exercise.exception.MinLengthException;
+import chapter04.exercise.exception.NegativeNumberException;
+import chapter04.exercise.exception.NumberOutOfRangeException;
+import chapter04.exercise.validation.CommonValidation;
+
 import java.util.Scanner;
 
 /**
@@ -29,15 +35,29 @@ public class Phone {
     }
 
     // To be implemented by subclasses
-    public void input(Scanner sc) {
+    public void input(Scanner sc) throws EmptyFieldException, NumberFormatException,
+            NegativeNumberException, NumberOutOfRangeException, MinLengthException {
         System.out.print("  Name: ");
-        this.phoneName = sc.nextLine();
+        String name = sc.nextLine().trim();
+        CommonValidation.checkNotEmpty(name, "Phone name");
+        this.phoneName = name;
+
         System.out.print("  Price (USD): ");
-        this.phonePrice = Double.parseDouble(sc.nextLine());
+        String priceStr = sc.nextLine().trim();
+        double price = CommonValidation.parseDouble(priceStr, "Price"); //throws EmptyField or NumberFormat
+        CommonValidation.checkNotNegative(price, "Price");
+        this.phonePrice = price;
+
         System.out.print("  Warranty (months): ");
-        this.warrantyMonths = Integer.parseInt(sc.nextLine());
+        String warrantyStr = sc.nextLine().trim();
+        int warranty = CommonValidation.parseInt(warrantyStr, "Warranty period");
+        CommonValidation.checkNotNegative(warranty, "Warranty period");
+        this.warrantyMonths = warranty;
+
         System.out.print("  Manufacturer: ");
-        this.manufacturer = sc.nextLine();
+        String mfr = sc.nextLine().trim();
+        CommonValidation.checkNotEmpty(mfr, "Manufacturer");
+        this.manufacturer = mfr;
     }
 
     public void display() {

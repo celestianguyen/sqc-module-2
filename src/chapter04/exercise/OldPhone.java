@@ -1,5 +1,12 @@
 package chapter04.exercise;
 
+import chapter04.exercise.exception.EmptyFieldException;
+import chapter04.exercise.exception.MinLengthException;
+import chapter04.exercise.exception.NegativeNumberException;
+import chapter04.exercise.exception.NumberOutOfRangeException;
+import chapter04.exercise.validation.CommonValidation;
+import chapter04.exercise.validation.PhoneValidation;
+
 import java.util.Scanner;
 
 /**
@@ -22,12 +29,21 @@ public class OldPhone extends Phone {
     }
 
     @Override
-    public void input(Scanner sc) {
+    public void input(Scanner sc) throws EmptyFieldException, NumberFormatException,
+            NegativeNumberException, NumberOutOfRangeException, MinLengthException {
         super.input(sc);
+
         System.out.print("  Battery condition (%): ");
-        this.batteryCondition = Integer.parseInt(sc.nextLine());
+        String batteryStr = sc.nextLine().trim();
+        int battery = CommonValidation.parseInt(batteryStr, "Battery condition");
+        PhoneValidation.checkBatteryRange(battery);
+        this.batteryCondition = battery;
+
         System.out.print("  Description: ");
-        this.description = sc.nextLine();
+        String desc = sc.nextLine().trim();
+        CommonValidation.checkNotEmpty(desc, "Description");
+        PhoneValidation.checkDescriptionLength(desc);
+        this.description = desc;
     }
 
     @Override

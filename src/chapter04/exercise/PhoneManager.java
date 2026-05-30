@@ -1,11 +1,18 @@
 package chapter04.exercise;
 
+import chapter04.exercise.exception.EmptyFieldException;
+import chapter04.exercise.exception.MinLengthException;
+import chapter04.exercise.exception.NegativeNumberException;
+import chapter04.exercise.exception.NumberOutOfRangeException;
+
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static util.InputUtil.scanner;
 
 public class PhoneManager {
     static ArrayList<Phone> phones;
+    private Scanner sc = new Scanner(System.in);
 
 
     static {
@@ -65,32 +72,55 @@ public class PhoneManager {
     public void addOldPhones() {
         System.out.println("--------ADD OLD PHONE--------");
         OldPhone oPhone = new OldPhone();
-        oPhone.input(scanner);
-        int count = 0;
-        for (Phone p : phones) {
-            if (p.getId().substring(0,2).equals("OP")) {
-                count++;
+        try {
+            oPhone.input(scanner);
+            int count = 0;
+            for (Phone p : phones) {
+                if (p.getId().substring(0, 2).equals("OP")) {
+                    count++;
+                }
             }
+            oPhone.setId(generateId("OP", count));
+            phones.add(oPhone);
+            System.out.println("\nAdded successfully! Phone ID: " + oPhone.getId());
+        } catch (EmptyFieldException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Price, warranty, battery, and quantity must be valid numbers.");
+        } catch (NegativeNumberException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (NumberOutOfRangeException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (MinLengthException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("The application encountered some unexpected errors. Please try using the functions again.");
         }
-        oPhone.setId(generateId("OP", count));
-        phones.add(oPhone);
-        System.out.println("\nAdded successfully! Phone ID: " + oPhone.getId());
     }
 
     public void addNewPhones() {
         System.out.println("--------ADD NEW PHONE--------");
         NewPhone nPhone = new NewPhone();
-        nPhone.input(scanner);
-        int count = 0;
-        for (Phone p : phones) {
-            if (p.getId().substring(0,2).equals("NP")){
-                count++;
+        try {
+            nPhone.input(scanner);
+            int count = 0;
+            for (Phone p : phones) {
+                if (p.getId().substring(0, 2).equals("NP")) {
+                    count++;
+                }
             }
+            nPhone.setId(generateId("NP", count));
+            phones.add(nPhone);
+            System.out.println("\nAdded successfully! Phone ID: " + nPhone.getId());
+        } catch (EmptyFieldException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Price, warranty, and quantity must be valid numbers.");
+        } catch (NegativeNumberException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("The application encountered some unexpected errors. Please try using the functions again.");
         }
-        nPhone.setId(generateId("NP", count));
-        phones.add(nPhone);
-        System.out.println("\nAdded successfully! Phone ID: " + nPhone.getId());
-
     }
 
     //======UPDATE===========
@@ -106,9 +136,23 @@ public class PhoneManager {
         for (Phone p : phones) {
             if (p.getId().equals(id)) {
                 System.out.println("  Found. Enter new information:");
-                p.input(scanner);
-                p.setId(id);
-                System.out.println("  Update successful.");
+                try {
+                    p.input(scanner);
+                    p.setId(id);
+                    System.out.println("  Update successful.");
+                } catch (EmptyFieldException e) {
+                    System.out.println("Error: " + e.getMessage());
+                } catch (NumberFormatException e) {
+                    System.out.println("Error: Numeric fields must contain valid numbers.");
+                } catch (NegativeNumberException e) {
+                    System.out.println("Error: " + e.getMessage());
+                } catch (NumberOutOfRangeException e) {
+                    System.out.println("Error: " + e.getMessage());
+                } catch (MinLengthException e) {
+                    System.out.println("Error: " + e.getMessage());
+                } catch (Exception e) {
+                    System.out.println("The application encountered some unexpected errors. Please try using the functions again.");
+                }
                 return;
             }
         }

@@ -1,5 +1,11 @@
 package chapter04.exercise;
 
+import chapter04.exercise.exception.EmptyFieldException;
+import chapter04.exercise.exception.MinLengthException;
+import chapter04.exercise.exception.NegativeNumberException;
+import chapter04.exercise.exception.NumberOutOfRangeException;
+import chapter04.exercise.validation.CommonValidation;
+
 import java.util.Scanner;
 
 public class NewPhone extends Phone {
@@ -25,10 +31,15 @@ public class NewPhone extends Phone {
     }
 
     @Override
-    public void input(Scanner sc) {
+    public void input(Scanner sc) throws EmptyFieldException, NumberFormatException,
+            NegativeNumberException, NumberOutOfRangeException, MinLengthException {
         super.input(sc);
+
         System.out.print("  Quantity: ");
-        this.quantity = Integer.parseInt(sc.nextLine());
+        String qtyStr = sc.nextLine().trim();
+        int qty = CommonValidation.parseInt(qtyStr, "Quantity");
+        CommonValidation.checkNotNegative(qty, "Quantity");
+        this.quantity = qty;
     }
 
     @Override
